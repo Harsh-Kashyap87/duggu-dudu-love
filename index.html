@@ -6,76 +6,184 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   text-align: center;
   background: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
   color: white;
+  overflow-x: hidden;
 }
 
+/* Sections */
 .section {
   padding: 60px 20px;
 }
 
-h1 {
-  font-size: 36px;
-}
-
+/* Button */
 button {
-  padding: 15px 25px;
+  padding: 12px 25px;
   border: none;
   border-radius: 30px;
   background: white;
   color: #ff4e8a;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
+  margin-top: 15px;
 }
 
-button:hover {
-  background: #ffe6f0;
-}
-
+/* Floating Hearts */
 .heart {
-  font-size: 30px;
-  animation: float 2s infinite;
+  position: fixed;
+  top: -10px;
+  color: rgba(255,255,255,0.7);
+  animation: fall linear infinite;
+}
+@keyframes fall {
+  to { transform: translateY(100vh); }
 }
 
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+/* Slideshow */
+.slideshow img {
+  width: 80%;
+  border-radius: 20px;
+  margin-top: 20px;
 }
+
+/* Hidden */
+.hidden { display: none; margin-top:20px; }
 </style>
 </head>
 
 <body>
 
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
 <div class="section">
 <h1>Duggu ❤️ Dudu</h1>
 <p>7 Days. 1 Love Story. Unlimited Drama 😌</p>
+<button onclick="playMusic()">Tap for Romantic Music 🎵</button>
 </div>
 
 <div class="section">
 <h2>🌹 Rose Day</h2>
-<p>If I had one rose for every time you made me smile,
-we’d need a bigger house.</p>
-</div>
+<p>If I had one rose for every time you made me smile, we'd need a bigger house.</p>
 
-<div class="section">
 <h2>💍 Propose Day</h2>
-<p>Duggu, will you continue being my best friend,
-my partner, and my forever trouble? 😜</p>
-<button onclick="alert('Obviously YES 💖')">Click Me Duggu</button>
-</div>
+<p>Duggu, will you continue being my best friend, my partner, and my forever trouble? 😜</p>
 
-<div class="section">
-<h2>💖 Happy Valentine’s Day 💖</h2>
+<h2>🍫 Chocolate Day</h2>
+<p>You’re sweeter than chocolate and more addictive too 😌</p>
+
+<h2>🧸 Teddy Day</h2>
+<p>If you were a teddy, I’d hug you 24/7 🤗</p>
+
+<h2>🤝 Promise Day</h2>
+<p>I promise to annoy you daily, support you always, and love you endlessly.</p>
+
+<h2>🤗 Hug Day</h2>
+<p>The safest place in the world? Your hug.</p>
+
+<h2>💖 Valentine’s Day 💖</h2>
 <p>
 From friends to best friends to something magical... <br><br>
 I choose you. In every mood. In every lifetime.
 </p>
-<div class="heart">❤️</div>
-<p>Love, Dudu</p>
 </div>
+
+<!-- Countdown -->
+<div class="section">
+<h2>Countdown to Forever ⏳</h2>
+<p id="countdown"></p>
+</div>
+
+<!-- Typewriter -->
+<div class="section">
+<h2 id="typewriter"></h2>
+</div>
+
+<!-- Slideshow -->
+<div class="section slideshow">
+<h2>Our Memories 📸</h2>
+<img id="slide" src="https://picsum.photos/400/600?random=1">
+</div>
+
+<!-- Secret Message -->
+<div class="section">
+<h2>Secret Message 🔒</h2>
+<input type="password" id="password" placeholder="Enter secret word">
+<br>
+<button onclick="checkPassword()">Unlock 💌</button>
+<div id="secret" class="hidden">
+Duggu, you are my forever person.
+No matter what life brings, I choose you.
+Always.
+– Dudu ❤️
+</div>
+</div>
+
+<script>
+
+/* Play Music */
+function playMusic(){
+document.getElementById("bgMusic").play();
+}
+
+/* Floating Hearts */
+function createHeart(){
+const heart=document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=Math.random()*3+2+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),5000);
+}
+setInterval(createHeart,500);
+
+/* Countdown */
+var countDate=new Date("Feb 14, 2026 00:00:00").getTime();
+var x=setInterval(function(){
+var now=new Date().getTime();
+var distance=countDate-now;
+var days=Math.floor(distance/(1000*60*60*24));
+document.getElementById("countdown").innerHTML=days+" days to next Valentine 💖";
+},1000);
+
+/* Typewriter */
+var text="I Love You Duggu ❤️";
+var i=0;
+function typeEffect(){
+if(i<text.length){
+document.getElementById("typewriter").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typeEffect,100);
+}
+}
+typeEffect();
+
+/* Slideshow */
+var images=[
+"https://picsum.photos/400/600?random=1",
+"https://picsum.photos/400/600?random=2",
+"https://picsum.photos/400/600?random=3"
+];
+var slideIndex=0;
+setInterval(function(){
+slideIndex=(slideIndex+1)%images.length;
+document.getElementById("slide").src=images[slideIndex];
+},3000);
+
+/* Password */
+function checkPassword(){
+if(document.getElementById("password").value==="duggu"){
+document.getElementById("secret").style.display="block";
+}else{
+alert("Wrong password 😜");
+}
+}
+</script>
 
 </body>
 </html>
